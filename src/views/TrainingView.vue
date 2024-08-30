@@ -34,6 +34,14 @@ const decrement = () => {
 const decrementState = () => {
   state.count--
 }
+
+const formatDate = (date: Date) => {
+  const d = new Date(date)
+  const year = d.getFullYear()
+  const month = `${d.getMonth() + 1}`.padStart(2, '0')
+  const day = `${d.getDate()}`.padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
 </script>
 
 <template>
@@ -60,6 +68,14 @@ const decrementState = () => {
       <div :id>:id</div>
       <button :disabled="disabled">Disabled Button</button>
       <div v-bind="dynamicAttrs">Dynamic Attrs</div>
+    </div>
+
+    <div class="group">
+      <span class="description">Using JavaScript Expressions</span>
+      <div>count + 1 -> {{ count + 1 }}</div>
+      <div>msg.split('').reverse().join('') -> {{ msg.split('').reverse().join('') }}</div>
+      <div :id="`list-${id}`">:id="`list-${id}`</div>
+      <time :title="formatDate(new Date())">{{ formatDate(new Date()) }}</time>
     </div>
 
     <div class="group">
