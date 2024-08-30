@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 const title = 'Training'
 const subtitle = 'Here is where you can learn how to use Vue.js'
 const msg = 'AZoom Da Nang Training'
@@ -14,11 +14,53 @@ const dynamicAttrs = {
   class: 'training-class',
   style: 'color: red; font-size: 2rem;'
 }
+const list = [
+  {
+    id: 1,
+    name: 'John Doe'
+  },
+  {
+    id: 2,
+    name: 'Jane Doe'
+  },
+  {
+    id: 3,
+    name: 'Alice'
+  },
+  {
+    id: 4,
+    name: 'Bob'
+  },
+  {
+    id: 5,
+    name: 'Charlie'
+  }
+]
+
+const obj = {
+  1: {
+    name: 'John Doe'
+  },
+  2: {
+    name: 'Jane Doe'
+  },
+  3: {
+    name: 'Alice'
+  },
+  4: {
+    name: 'Bob'
+  },
+  5: {
+    name: 'Charlie'
+  }
+}
 
 const count = ref(0)
 const state = reactive({
   count: 0
 })
+const firstName = ref('John')
+const lastName = ref('Doe')
 
 const increment = () => {
   count.value++
@@ -43,6 +85,19 @@ const formatDate = (date: Date) => {
   const day = `${d.getDate()}`.padStart(2, '0')
   return `${year}-${month}-${day}`
 }
+
+const fullName = computed(() => {
+  return `${firstName.value} ${lastName.value}`
+})
+
+const writableFullName = computed({
+  get: () => `${firstName.value} ${lastName.value}`,
+  set: (value: string) => {
+    const parts = value.split(' ')
+    firstName.value = parts[0]
+    lastName.value = parts[1]
+  }
+})
 </script>
 
 <template>
@@ -64,7 +119,7 @@ const formatDate = (date: Date) => {
 
     <div class="group">
       <span class="description">Raw HTML (XSS Attack)</span>
-      <div v-html="userProvidedHtml"></div>
+      <!-- <div v-html="userProvidedHtml"></div> -->
     </div>
 
     <div class="group">
@@ -96,6 +151,54 @@ const formatDate = (date: Date) => {
       <button @click="incrementState">Increment State</button>
       <button @click="decrementState">Decrement State</button>
       <div>Count: {{ state.count }}</div>
+    </div>
+
+    <div class="group">
+      <span class="description">computed</span>
+      <div>
+        First Name
+        <input v-model="firstName" placeholder="First Name" />
+      </div>
+      <div>
+        Last Name
+        <input v-model="lastName" placeholder="Last Name" />
+      </div>
+
+      <div>Full Name: {{ fullName }}</div>
+    </div>
+
+    <div class="group">
+      <span class="description">Writable computed</span>
+
+      <input v-model="writableFullName" placeholder="First Name" />
+
+      <div>writableFullName: {{ writableFullName }}</div>
+    </div>
+
+    <div class="group">
+      <span class="description">List Rendering (in)</span>
+
+      <ul>
+        <li v-for="item in list" :key="item.id">{{ `${item.id} - ${item.name}` }}</li>
+      </ul>
+    </div>
+
+    <div class="group">
+      <span class="description">List Rendering (of)</span>
+
+      <ul>
+        <li v-for="item of list" :key="item.id">{{ `${item.id} - ${item.name}` }}</li>
+      </ul>
+    </div>
+
+    <div class="group">
+      <span class="description">List Rendering (OBJ)</span>
+
+      <ul>
+        <li v-for="(value, key, index) in obj" :key="index">
+          {{ `index ${index} -> ${key} - ${value.name}` }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
