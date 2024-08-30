@@ -4,6 +4,7 @@ const title = 'Training'
 const subtitle = 'Here is where you can learn how to use Vue.js'
 const msg = 'AZoom Da Nang Training'
 const rawHtml = '<p>Hello <strong>AZoom Team</strong> <em>Da Nang</em></p>'
+const userProvidedHtml = '<img src="x" onerror="alert(\'XSS Attack\')" />'
 const id = 'training-id'
 const id2 = 'training-id-2'
 const id3 = 'training-id-3'
@@ -59,6 +60,11 @@ const formatDate = (date: Date) => {
     <div class="group">
       <span class="description">Raw HTML</span>
       <div v-html="rawHtml"></div>
+    </div>
+
+    <div class="group">
+      <span class="description">Raw HTML (XSS Attack)</span>
+      <div v-html="userProvidedHtml"></div>
     </div>
 
     <div class="group">
